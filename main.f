@@ -3,10 +3,7 @@ c     Read points coords from std in
       COMMON /triangle/ p(3, 2), a, b, c, fi, cosfi, S, pi
       i = 1
       DO WHILE (i.LE.3)
-      READ (*, IOSTAT=ios) p(i,1), p(i,2)
-      IF (ios .NE. 0) THEN
-      PRINT *, 'Invalid input, please enter numeric values.'
-      END IF
+      READ *, p(i,1), p(i,2)
       i = i + 1
       END DO
       END
