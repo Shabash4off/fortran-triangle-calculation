@@ -12,7 +12,7 @@ c     Calculate area of triangle
       SUBROUTINE area
       COMMON /triangle/ p(3, 2), a, b, c, fi, cosfi, S, pi
       c1 = (p(2,1) - p(1,1)) * (p(3,2) - p(1,2))
-      c2 = (p(2,2) + p(1,2)) * (p(3,1) - p(1,1))
+      c2 = (p(2,2) - p(1,2)) * (p(3,1) - p(1,1))
       S = abs(c1 - c2) / 2
       END
 
