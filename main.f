@@ -77,6 +77,6 @@ c     Calculate smallest angle of triangle
       
       PROGRAM main
       COMMON /triangle/ p(3,2),a,b,c,fi,cosfi,S,pi
-      pi=3.14159265
+      READ *,pi
       CALL menu
       END 
