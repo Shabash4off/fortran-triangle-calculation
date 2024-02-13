@@ -1,14 +1,15 @@
 FROM debian:bullseye-slim
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends gfortran \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gfortran \
+    python3 \
+    python3-pip && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
 
 COPY . .
 
-RUN gfortran -std=legacy -o main main.f
+RUN python3 ./scripts/build.py
 
 CMD ["./main"]
