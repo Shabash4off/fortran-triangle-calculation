@@ -35,9 +35,14 @@
       SUBROUTINE m_angle
       COMMON /triangle/ p(3,2),a,b,c,fi,cosfi,S,pi
       CALL sides
-      IF (a.LE.b.AND.a.LE.c) cosfi=cos_angle(b,c,a)
-      IF (b.LE.a.AND.b.LE.c) cosfi=cos_angle(a,c,b)
-      IF (c.LE.a.AND.c.LE.b) cosfi=cos_angle(a,b,c)
+
+      IF (a.LE.b.AND.a.LE.c) THEN
+      cosfi=cos_angle(b,c,a)
+      ELSE IF (b.LE.a.AND.b.LE.c) THEN 
+      cosfi=cos_angle(a,c,b)
+      ELSE 
+      cosfi=cos_angle(a,b,c)
+      END IF
       fi=acos(cosfi)*180/pi
       END
 
