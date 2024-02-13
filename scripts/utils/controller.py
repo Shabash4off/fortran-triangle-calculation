@@ -27,7 +27,7 @@ def execute(pi, points):
         commands = [str(pi), INPUT, points_to_text(points), str(i), EXIT]
         text = "\n".join(commands) + "\n"
         output, error = process.communicate(text.encode())
-        result[OPTIONS[i]]=output.decode().split('\n')[10].strip()
+        result[OPTIONS[i]]=output.decode().split('\n')[11].strip()
 
     return result
 
