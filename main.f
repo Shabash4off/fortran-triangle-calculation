@@ -71,6 +71,7 @@
       
       PROGRAM main
       COMMON /triangle/ p(3,2),a,b,c,fi,cosfi,S,pi
-      READ *,pi
+			PRINT *, 'Enter pi:'
+      READ *, pi
       CALL menu
       END 
