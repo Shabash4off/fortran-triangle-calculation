@@ -55,24 +55,24 @@
       PRINT *,'3) Find smallest angle'
       PRINT *,'4) Find cosine of a smallest angle'
       PRINT *,'5) Exit'
+			READ *,n
+			GO TO (10,20,30,40, 50), n
+10    CALL input
+			GO TO 1
 
-      READ *,n
-      SELECT CASE (n)
-      CASE (1)
-      CALL input
-      CASE (2)
-      CALL area
-      PRINT *,S
-      CASE (3)
-      CALL m_angle
-      PRINT *,fi
-      CASE (4)
-      CALL m_angle
-      PRINT *,cosfi
-      CASE (5)
-      STOP
-      END SELECT
-      GO TO 1
+20    CALL area
+			PRINT *,S
+			GO TO 1
+
+30    CALL m_angle
+			PRINT *,fi
+			GO TO 1
+
+40    CALL m_angle
+			PRINT *,cosfi
+			GO TO 1
+
+50    STOP
       END
       
       PROGRAM main
