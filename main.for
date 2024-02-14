@@ -10,6 +10,11 @@
       c1 = (p(2,1) - p(1,1)) * (p(3,2) - p(1,2))
       c2 = (p(2,2) - p(1,2)) * (p(3,1) - p(1,1))
       S = abs(c1 - c2) / 2
+
+			IF (S.EQ.0.0) THEN
+				PRINT *,'ERROR: ZERO AREA'
+				STOP
+				END IF
       END
 
       SUBROUTINE m_angle
