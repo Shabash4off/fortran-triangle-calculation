@@ -1,57 +1,55 @@
-      !Read points coords from std in
       SUBROUTINE input
-      COMMON /triangle/ p(3, 2), a, b, c, fi, cosfi, S, pi
+      COMMON /triangle/ p(3, 2), fi, cosfi, S, pi
       DO i=1, 3
       READ *, p(i,1), p(i,2)
       END DO
       END
 
-      !Calculate area of triangle
       SUBROUTINE area
-      COMMON /triangle/ p(3, 2), a, b, c, fi, cosfi, S, pi
+      COMMON /triangle/ p(3, 2), fi, cosfi, S, pi
       c1 = (p(2,1) - p(1,1)) * (p(3,2) - p(1,2))
       c2 = (p(2,2) - p(1,2)) * (p(3,1) - p(1,1))
       S = abs(c1 - c2) / 2
       END
 
-      !Calculate sides length of triangle
-      SUBROUTINE sides
-      COMMON /triangle/ p(3,2),a,b,c,fi,cosfi,S,pi
-      a=sqrt((p(2,1)-p(1,1))**2+(p(2,2)-p(1,2))**2)
-      b=sqrt((p(3,1)-p(2,1))**2+(p(3,2)-p(2,2))**2)
-      c=sqrt((p(1,1)-p(3,1))**2+(p(1,2)-p(3,2))**2)
-      IF (a.EQ.0.0 .OR. b.EQ.0.0 .OR. c.EQ.0.0) THEN
+      SUBROUTINE m_angle
+      COMMON /triangle/ p(3,2),fi,cosfi,S,pi
+
+      DIMENSION a(2), b(2), c(2)
+
+      a(1) = p(2,1) - p(1,1)
+      a(2) = p(2,2) - p(1,2)
+      b(1) = p(3,1) - p(2,1)
+      b(2) = p(3,2) - p(2,2)
+      c(1) = p(1,1) - p(3,1)
+      c(2) = p(1,2) - p(3,2)
+      
+      a_l=sqrt(a(1)**2+a(2)**2)
+      b_l=sqrt(b(1)**2+b(2)**2)
+      c_l=sqrt(c(1)**2+c(2)**2)
+
+      IF (a_l.EQ.0.0 .OR. b_l.EQ.0.0 .OR. c_l.EQ.0.0) THEN
       PRINT *,'ERROR: ZERO SIDE LENGTH'
       STOP
       END IF
-      END
 
-      REAL FUNCTION cos_angle(a,b,c)
-      REAL a,b,c
-      cos_angle=(a**2+b**2-c**2)/(2*a*b)
-      END
-
-      !Calculate smallest angle of triangle
-      SUBROUTINE m_angle
-      COMMON /triangle/ p(3,2),a,b,c,fi,cosfi,S,pi
-      CALL sides
-      IF (a .LE. b) THEN
-      IF (a .LE. c) THEN
-      cosfi = cos_angle(b, c, a)
+      IF (a_l .LE. b_l) THEN
+      IF (a_l .LE. c_l) THEN
+      cosfi = -(a(1)*c(1) + a(2)*c(2)) / (a_l * c_l)
       ELSE
-      cosfi = cos_angle(a, b, c)
+      cosfi = -(b(1)*a(1) + b(2)*a(2)) / (b_l * a_l)
       END IF
-      ELSE IF (b .LE. c) THEN
-      cosfi = cos_angle(a, c, b)
+      ELSE IF (b_l .LE. c_l) THEN
+      cosfi = -(b(1)*a(1) + b(2)*a(2)) / (b_l * a_l)
       ELSE
-      cosfi = cos_angle(a, b, c)
+      cosfi = -(c(1)*b(1) + c(2)*b(2)) / (c_l * b_l)
       END IF
       fi=acos(cosfi)*180/pi
       END
 
 
       SUBROUTINE menu
-      COMMON /triangle/ p(3,2),a,b,c,fi,cosfi,S,pi
+      COMMON /triangle/ p(3,2),fi,cosfi,S,pi
     1 PRINT *,'1) Write coordinates'
       PRINT *,'2) Find area'
       PRINT *,'3) Find smallest angle'
@@ -61,16 +59,16 @@
       READ *,n
       SELECT CASE (n)
       CASE (1)
-        CALL input
+      CALL input
       CASE (2)
-        CALL area
-        PRINT *,S
+      CALL area
+      PRINT *,S
       CASE (3)
-        CALL m_angle
-        PRINT *,fi
+      CALL m_angle
+      PRINT *,fi
       CASE (4)
-        CALL m_angle
-        PRINT *,cosfi
+      CALL m_angle
+      PRINT *,cosfi
       CASE (5)
       STOP
       END SELECT
@@ -78,7 +76,7 @@
       END
       
       PROGRAM main
-      COMMON /triangle/ p(3,2),a,b,c,fi,cosfi,S,pi
+      COMMON /triangle/ p(3,2),fi,cosfi,S,pi
 			PRINT *, 'Enter pi:'
       READ *, pi
       CALL menu
