@@ -1,5 +1,5 @@
       SUBROUTINE input
-      COMMON /triangle/ p(3, 2), fi, cosfi, S, pi
+      COMMON /triangle/ p(3, 2),fi,cosfi,S,pi,a_l,b_l,c_l,a(2),b(2),c(2)
       DO i=1, 3
       READ *, p(i,1), p(i,2)
       END DO
@@ -7,28 +7,31 @@
       END
 
       SUBROUTINE area
-      COMMON /triangle/ p(3, 2), fi, cosfi, S, pi
+      COMMON /triangle/ p(3, 2),fi,cosfi,S,pi,a_l,b_l,c_l,a(2),b(2),c(2)
       c1 = (p(2,1) - p(1,1)) * (p(3,2) - p(1,2))
       c2 = (p(2,2) - p(1,2)) * (p(3,1) - p(1,1))
       S = abs(c1 - c2) / 2
       END
 
-      SUBROUTINE m_angle
-      COMMON /triangle/ p(3, 2), fi, cosfi, S, pi
+      SUBROUTINE sides
+      COMMON /triangle/ p(3, 2),fi,cosfi,S,pi,a_l,b_l,c_l,a(2),b(2),c(2)
 
-      DIMENSION a(2), b(2), c(2)
-            
       a(1) = p(2,1) - p(1,1)
       a(2) = p(2,2) - p(1,2)
       b(1) = p(3,1) - p(2,1)
       b(2) = p(3,2) - p(2,2)
       c(1) = p(1,1) - p(3,1)
       c(2) = p(1,2) - p(3,2)
-      
+
       a_l=sqrt(a(1)**2+a(2)**2)
       b_l=sqrt(b(1)**2+b(2)**2)
       c_l=sqrt(c(1)**2+c(2)**2)
+      END
 
+      SUBROUTINE m_angle
+      COMMON /triangle/ p(3, 2),fi,cosfi,S,pi,a_l,b_l,c_l,a(2),b(2),c(2)
+
+      call sides
       IF (a_l .LE. b_l) THEN
       IF (a_l .LE. c_l) THEN
       fi = asin(2*S/(c_l*b_l))
@@ -45,21 +48,9 @@
       END
 
       SUBROUTINE m_cos_angle
-      COMMON /triangle/ p(3, 2), fi, cosfi, S, pi
+      COMMON /triangle/ p(3, 2),fi,cosfi,S,pi,a_l,b_l,c_l,a(2),b(2),c(2)
 
-      DIMENSION a(2), b(2), c(2)
-
-      a(1) = p(2,1) - p(1,1)
-      a(2) = p(2,2) - p(1,2)
-      b(1) = p(3,1) - p(2,1)
-      b(2) = p(3,2) - p(2,2)
-      c(1) = p(1,1) - p(3,1)
-      c(2) = p(1,2) - p(3,2)
-      
-      a_l=sqrt(a(1)**2+a(2)**2)
-      b_l=sqrt(b(1)**2+b(2)**2)
-      c_l=sqrt(c(1)**2+c(2)**2)
-
+      call sides
       IF (a_l .LE. b_l) THEN
       IF (a_l .LE. c_l) THEN
       cosfi = (c(1)*(-b(1)) + c(2)*(-b(2))) / (c_l * b_l)
@@ -75,7 +66,7 @@
 
 
       SUBROUTINE menu
-      COMMON /triangle/ p(3, 2), fi, cosfi, S, pi
+      COMMON /triangle/ p(3, 2),fi,cosfi,S,pi,a_l,b_l,c_l,a(2),b(2),c(2)
 1     PRINT *,'1) Write coordinates'
       PRINT *,'2) Find area'
       PRINT *,'3) Find smallest angle'
@@ -113,7 +104,7 @@
       END
       
       PROGRAM main
-      COMMON /triangle/ p(3, 2), fi, cosfi, S, pi
+      COMMON /triangle/ p(3, 2),fi,cosfi,S,pi,a_l,b_l,c_l,a(2),b(2),c(2)
       PRINT *, 'Enter pi:'
       READ *, pi
       CALL menu
