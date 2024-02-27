@@ -3,7 +3,7 @@
       DO i=1, 3
       READ *, p(i,1), p(i,2)
       END DO
-      CALL vectors
+      CALL pre
       CALL area
       END
 
@@ -20,59 +20,54 @@
       S = abs(a(1)*c(2) - a(2)*c(1)) / 2
       END
 
-      SUBROUTINE vectors
+      SUBROUTINE pre
       COMMON /triangle/ p(3, 2),fi,cosfi,S,pi,a_l,b_l,c_l,a(2),b(2),c(2)
+
+      REAL temp_l
+      DIMENSION temp(2)
+
       a(1) = p(2,1) - p(1,1)
       a(2) = p(2,2) - p(1,2)
       b(1) = p(3,1) - p(2,1)
       b(2) = p(3,2) - p(2,2)
       c(1) = p(1,1) - p(3,1)
       c(2) = p(1,2) - p(3,2)
-      END
 
-      SUBROUTINE sides
-      COMMON /triangle/ p(3, 2),fi,cosfi,S,pi,a_l,b_l,c_l,a(2),b(2),c(2)
       a_l=sqrt(a(1)**2+a(2)**2)
       b_l=sqrt(b(1)**2+b(2)**2)
       c_l=sqrt(c(1)**2+c(2)**2)
+      
+      IF (b_l < a_l) THEN
+      temp_l = b_l
+      b_l = a_l
+      a_l = temp_l
+
+      temp = b
+      b = a
+      a = temp
+      END IF
+
+      IF (c_l < a_l) THEN
+      temp_l = c_l
+      c_l = a_l
+      a_l = temp_l
+
+      temp = c
+      c = a
+      a = temp
+      END IF
       END
 
       SUBROUTINE m_angle
       COMMON /triangle/ p(3, 2),fi,cosfi,S,pi,a_l,b_l,c_l,a(2),b(2),c(2)
 
-      CALL sides
-
-      IF (a_l .LE. b_l) THEN
-      IF (a_l .LE. c_l) THEN
-      fi = asin(2*S/(c_l*b_l))
-      ELSE
-      fi = asin(2*S/(a_l*b_l))
-      END IF
-      ELSE IF (b_l .LE. c_l) THEN
-      fi = asin(2*S/(a_l*c_l))
-      ELSE
-      fi = asin(2*S/(a_l*b_l))
-      END IF
-
-      fi = fi*180/pi
+      fi = asin(2*S/(c_l*b_l))*(180/pi)
       END
 
       SUBROUTINE m_cos_angle
       COMMON /triangle/ p(3, 2),fi,cosfi,S,pi,a_l,b_l,c_l,a(2),b(2),c(2)
-      
-      CALL sides
 
-      IF (a_l .LE. b_l) THEN
-      IF (a_l .LE. c_l) THEN
       cosfi = (c(1)*(-b(1)) + c(2)*(-b(2))) / (c_l * b_l)
-      ELSE
-      cosfi = (b(1)*(-a(1)) + b(2)*(-a(2))) / (b_l * a_l)
-      END IF
-      ELSE IF (b_l .LE. c_l) THEN
-      cosfi = (a(1)*(-c(1)) + a(2)*(-c(2))) / (a_l * c_l)
-      ELSE
-      cosfi = (b(1)*(-a(1)) + b(2)*(-a(2))) / (b_l * a_l)
-      END IF
       END
 
       SUBROUTINE menu
